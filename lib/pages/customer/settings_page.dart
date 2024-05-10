@@ -138,6 +138,14 @@ class _SettingsPageState extends State<SettingsPage> {
           userData?.user!.email ?? "Not Found",
           style: const TextStyle(color: Colors.grey),
         ),
+        Text(
+          'Poin :${userData?.promoPoin}',
+          style: const TextStyle(color: Colors.grey),
+        ),
+        Text(
+          'Saldo :${userData?.saldo}',
+          style: const TextStyle(color: Colors.grey),
+        ),
       ],
     );
   }

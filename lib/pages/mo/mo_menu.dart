@@ -1,5 +1,6 @@
 import 'package:atma_kitchen_mobile/pages/login_page.dart';
 import 'package:atma_kitchen_mobile/pages/mo/edit_presensi_page.dart';
+import 'package:atma_kitchen_mobile/pages/mo/view_presensi_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,7 +48,7 @@ class _MOMenuPageState extends State<MOMenuPage> {
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (_) => const EditPresensiPage())),
+                        builder: (_) => const ViewPresensiPage())),
               ),
               const Divider(),
             ],
