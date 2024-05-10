@@ -30,10 +30,12 @@ class Hampers {
       idProduk2: json['id_produk2'],
       nama: json['nama'],
       rincian: json['rincian'],
-      harga: json['harga'],
+      harga: (json['harga'] as int).toDouble(),
       image: json['image'],
-      produk1: Produk.fromJson(json['produk1']),
-      produk2: Produk.fromJson(json['produk2']),
+      produk1:
+          json['produk1'] != null ? Produk.fromJson(json['produk1']) : null,
+      produk2:
+          json['produk2'] != null ? Produk.fromJson(json['produk2']) : null,
     );
   }
 

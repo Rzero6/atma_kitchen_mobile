@@ -27,16 +27,18 @@ class Produk {
 
   factory Produk.fromJson(Map<String, dynamic> json) {
     return Produk(
-        id: json['id'],
-        idPenitip: json['id_penitip'],
-        nama: json['nama'],
-        stok: json['stok'],
-        harga: json['harga'],
-        limitPO: json['limit_po'],
-        jenis: json['jenis'],
-        ukuran: json['ukuran'],
-        image: json['image'],
-        penitip: Penitip.fromJson(json['penitip']));
+      id: json['id'],
+      idPenitip: json['id_penitip'],
+      nama: json['nama'],
+      stok: json['stok'],
+      harga: (json['harga'] as int).toDouble(),
+      limitPO: json['limit_po'],
+      jenis: json['jenis'],
+      ukuran: json['ukuran'],
+      image: json['image'],
+      penitip:
+          json['penitip'] != null ? Penitip.fromJson(json['penitip']) : null,
+    );
   }
 
   Map<String, dynamic> toJson() {

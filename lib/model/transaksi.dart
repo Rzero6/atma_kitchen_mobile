@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:atma_kitchen_mobile/model/alamat.dart';
 import 'package:atma_kitchen_mobile/model/detail_transaksi.dart';
 
@@ -24,15 +26,11 @@ class Transaksi {
   });
 
   factory Transaksi.fromJson(Map<String, dynamic> json) {
-    List<dynamic>? jsonDetailTransaksi = json['detail_transaksi'];
-    List<DetailTransaksi>? detailTransaksi;
-
-    if (jsonDetailTransaksi != null) {
-      detailTransaksi = jsonDetailTransaksi
-          .map((detailJson) => DetailTransaksi.fromJson(detailJson))
-          .toList();
+    List<dynamic> jsonDetailTransaksi = json['detail'];
+    List<DetailTransaksi> detailTransaksiList = [];
+    for (var jsonDataItem in jsonDetailTransaksi) {
+      detailTransaksiList.add(DetailTransaksi.fromJson(jsonDataItem));
     }
-
     return Transaksi(
         id: json['id'],
         idAlamat: json['id_alamat'],
@@ -42,7 +40,7 @@ class Transaksi {
         jarak: json['jarak'],
         tip: (json['tip'] as int).toDouble(),
         alamat: Alamat.fromJson(json['alamat']),
-        detailTransaksi: detailTransaksi);
+        detailTransaksi: detailTransaksiList);
   }
 
   Map<String, dynamic> toJson() {

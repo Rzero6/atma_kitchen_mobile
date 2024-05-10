@@ -7,36 +7,32 @@ import 'package:atma_kitchen_mobile/model/transaksi.dart';
 import 'package:atma_kitchen_mobile/api/transaksi_client.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class RiwayatPage extends ConsumerStatefulWidget {
-  const RiwayatPage({super.key});
+class PesananPage extends ConsumerStatefulWidget {
+  const PesananPage({super.key});
 
   @override
-  ConsumerState<RiwayatPage> createState() => _RiwayatPageState();
+  ConsumerState<PesananPage> createState() => _PesananPageState();
 }
 
-class _RiwayatPageState extends ConsumerState<RiwayatPage> {
+class _PesananPageState extends ConsumerState<PesananPage> {
   final TextEditingController _controller = TextEditingController();
-  List<String> stringList = [];
   final listTransactionProvider =
       FutureProvider.family<List<Transaksi>?, String>((ref, search) async {
     List<Transaksi>? items = await TransaksiClient.getTransaksisPerUser();
-    List<String> queryTerms = search.toLowerCase().split(" ").toList();
+    if (items.isNotEmpty) {
+      List<Transaksi> filteredItems =
+          items.where((element) => element.status == search).toList();
 
-    List<Transaksi> result = items.where((atransaksi) {
-      return queryTerms.every((queryTerm) {
-        return atransaksi.detailTransaksi!.any((adetail) {
-          String productName = adetail.produk?.nama.toLowerCase() ?? "";
-          String hamperName = adetail.hampers?.nama.toLowerCase() ?? "";
-          return productName.contains(queryTerm) ||
-              hamperName.contains(queryTerm);
-        });
-      });
-    }).toList();
-    return result;
+      return filteredItems;
+    } else {
+      return null;
+    }
   });
+  List<String> status = ["diproses", "pickup", "pengiriman", "selesai"];
 
   @override
   void initState() {
+    _controller.text = status[0];
     super.initState();
   }
 
@@ -49,17 +45,62 @@ class _RiwayatPageState extends ConsumerState<RiwayatPage> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _controller,
-              onChanged: (value) => setState(() {}),
-              decoration: const InputDecoration(
-                hintText: 'Search...',
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
+          NavigationView(
+            onChangePage: (c) {
+              switch (c) {
+                case 0:
+                  setState(() {
+                    _controller.text = status[c];
+                  });
+                  break;
+                case 1:
+                  setState(() {
+                    _controller.text = status[c];
+                  });
+                  break;
+                case 2:
+                  setState(() {
+                    _controller.text = status[c];
+                  });
+                  break;
+                case 3:
+                  setState(() {
+                    _controller.text = status[c];
+                  });
+                  break;
+              }
+            },
+            curve: Curves.easeIn,
+            durationAnimation: const Duration(milliseconds: 400),
+            items: [
+              ItemNavigationView(
+                childAfter: const Text('Diproses',
+                    style: TextStyle(color: Colors.blue)),
+                childBefore: Text('Diproses',
+                    style: TextStyle(color: Colors.grey.withAlpha(60))),
               ),
-            ),
+              ItemNavigationView(
+                childAfter: const Text('Siap Pick-up',
+                    style: TextStyle(color: Colors.blue)),
+                childBefore: Text('Siap Pick-up',
+                    style: TextStyle(color: Colors.grey.withAlpha(60))),
+              ),
+              ItemNavigationView(
+                childAfter: const Text('Perjalanan',
+                    style: TextStyle(color: Colors.blue)),
+                childBefore: Text('Perjalanan',
+                    style: TextStyle(color: Colors.grey.withAlpha(60))),
+              ),
+              ItemNavigationView(
+                childAfter:
+                    const Text('Selesai', style: TextStyle(color: Colors.blue)),
+                childBefore: Text('Selesai',
+                    style: TextStyle(color: Colors.grey.withAlpha(60))),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 1.h,
           ),
           Expanded(
             child: itemListener.when(
