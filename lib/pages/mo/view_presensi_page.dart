@@ -49,34 +49,26 @@ class _PresensiPageState extends ConsumerState<ViewPresensiPage> {
                       height: 3.h,
                     ),
                     TextFormField(
-                        key: const Key("register-input-date"),
-                        controller: dateController,
-                        keyboardType: TextInputType.datetime,
-                        onTap: _selectDate,
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          prefixIcon: const Icon(Icons.date_range),
-                          labelText: 'Tanggal Presensi',
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              _selectDate();
-                            },
-                            icon: const Icon(Icons.date_range_outlined),
-                            color: Colors.blue,
-                          ),
+                      key: const Key("register-input-date"),
+                      controller: dateController,
+                      keyboardType: TextInputType.datetime,
+                      onTap: _selectDate,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        prefixIcon: const Icon(Icons.date_range),
+                        labelText: 'Tanggal Presensi',
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            _selectDate();
+                          },
+                          icon: const Icon(Icons.date_range_outlined),
+                          color: Colors.blue,
                         ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Masukan Tanggal Lahir';
-                          }
-                          // if (under18(value)) {
-                          //   return 'Please Get Older (18+)';
-                          // }
-                          return null;
-                        }),
+                      ),
+                    ),
                     SizedBox(height: 3.h),
                     Expanded(
                       child: itemListener.when(
@@ -86,15 +78,17 @@ class _PresensiPageState extends ConsumerState<ViewPresensiPage> {
                               itemCount: data.length,
                               itemBuilder: (context, index) {
                                 if (data[index].role.toLowerCase() != "owner") {
-                                  return CheckboxListTile(
-                                    title: Text(data[index].user.name),
-                                    subtitle: Text(data[index].role),
-                                    value: data[index].kehadiran,
-                                    onChanged: (newValue) {
-                                      setState(() {
-                                        data[index].kehadiran = newValue!;
-                                      });
-                                    },
+                                  return Container(
+                                    color: data[index].kehadiran
+                                        ? Colors.green.withAlpha(100)
+                                        : Colors.red.withAlpha(100),
+                                    child: ListTile(
+                                      title: Text(data[index].user.name),
+                                      subtitle: Text(data[index].role),
+                                      trailing: Text(data[index].kehadiran
+                                          ? "Hadir"
+                                          : "Tidak Hadir"),
+                                    ),
                                   );
                                 } else {
                                   return Container();

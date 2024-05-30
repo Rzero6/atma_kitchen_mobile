@@ -32,7 +32,7 @@ class Produk {
       nama: json['nama'],
       stok: json['stok'],
       harga: (json['harga'] as int).toDouble(),
-      limitPO: json['limit_po'],
+      limitPO: json['limit_po'] ?? 0,
       jenis: json['jenis'],
       ukuran: json['ukuran'],
       image: json['image'],
