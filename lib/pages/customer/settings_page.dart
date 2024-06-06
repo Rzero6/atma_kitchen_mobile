@@ -1,5 +1,7 @@
 import 'package:atma_kitchen_mobile/model/customer.dart';
+import 'package:atma_kitchen_mobile/model/histori.dart';
 import 'package:atma_kitchen_mobile/pages/customer/edit_profile_page.dart';
+import 'package:atma_kitchen_mobile/pages/customer/histori_saldo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_initicon/flutter_initicon.dart';
 import 'package:atma_kitchen_mobile/api/api_client.dart';
@@ -61,8 +63,7 @@ class _SettingsPageState extends State<SettingsPage> {
     String? username = sharedPrefs.getString('username') ?? "";
     isLoggedIn = username.isNotEmpty;
     if (isLoggedIn) {
-      userData = await _userClient.getUser(
-          sharedPrefs.getString('token')!, sharedPrefs.getInt('userID')!);
+      userData = await _userClient.getUser(sharedPrefs.getInt('userID')!);
     }
     setState(() {
       isLoading = false;
@@ -159,71 +160,77 @@ class _SettingsPageState extends State<SettingsPage> {
         Card(
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              children: [
-                Theme(
-                    data: ThemeData(highlightColor: Colors.transparent),
-                    child: isLoggedIn
-                        ? ListTile(
-                            splashColor: Colors.transparent,
-                            leading:
-                                const Icon(Icons.logout, color: Colors.red),
-                            title: const Text(
-                              'Logout',
-                              style: TextStyle(color: Colors.red),
-                            ),
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text('Confirm Logout'),
-                                    content: const Text('Yakin ingin keluar ?'),
-                                    actions: <Widget>[
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text('Cancel'),
-                                      ),
-                                      ElevatedButton(
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                      Color>(Colors.red)),
-                                          onPressed: () {
-                                            removeLoginData();
-                                            Navigator.of(context).pop();
-                                            Navigator.pushReplacement(
-                                                pageContext,
-                                                MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        const Loginview()));
-                                          },
-                                          child: const Text('Logout'))
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                          )
-                        : ListTile(
-                            splashColor: Colors.transparent,
-                            leading:
-                                const Icon(Icons.login, color: Colors.blue),
-                            title: const Text(
-                              'Login',
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => const Loginview())),
-                          )),
-              ],
-            ),
+          child: Column(
+            children: [
+              ListTile(
+                splashColor: const Color.fromARGB(0, 225, 210, 210),
+                leading: const Icon(Icons.monetization_on, color: Colors.blue),
+                title: const Text(
+                  'Saldo',
+                  style: TextStyle(color: Colors.blue),
+                ),
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const HistoriSaldoPage())),
+              ),
+              SizedBox(
+                height: 2.h,
+              ),
+              isLoggedIn
+                  ? ListTile(
+                      splashColor: Colors.transparent,
+                      leading: const Icon(Icons.logout, color: Colors.red),
+                      title: const Text(
+                        'Logout',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Confirm Logout'),
+                              content: const Text('Yakin ingin keluar ?'),
+                              actions: <Widget>[
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Cancel'),
+                                ),
+                                ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.red)),
+                                    onPressed: () {
+                                      removeLoginData();
+                                      Navigator.of(context).pop();
+                                      Navigator.pushReplacement(
+                                          pageContext,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const Loginview()));
+                                    },
+                                    child: const Text('Logout'))
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    )
+                  : ListTile(
+                      splashColor: Colors.transparent,
+                      leading: const Icon(Icons.login, color: Colors.blue),
+                      title: const Text(
+                        'Login',
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                      onTap: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => const Loginview())),
+                    ),
+            ],
           ),
         ),
       ],

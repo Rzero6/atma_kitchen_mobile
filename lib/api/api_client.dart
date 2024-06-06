@@ -4,10 +4,12 @@ class ApiClient {
   late final String pic;
   late final String produk;
   late final String hampers;
+  late final String transfer;
   ApiClient() {
     baseUrl = '$domainName/api';
     pic = '$domainName/storage/customer/';
     produk = '$domainName/storage/produk/';
     hampers = '$domainName/storage/hampers/';
+    transfer = '$domainName/storage/bukti_transfer/';
   }
 }

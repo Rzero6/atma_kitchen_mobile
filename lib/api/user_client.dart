@@ -5,6 +5,8 @@ import 'package:atma_kitchen_mobile/api/api_client.dart';
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class UserClient {
   ApiClient apiClient = ApiClient();
 
@@ -40,8 +42,10 @@ class UserClient {
     }
   }
 
-  Future<Customer> getUser(String token, int id) async {
+  Future<Customer> getUser(int id) async {
     var client = http.Client();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token')!;
     Uri uri = Uri.parse('${apiClient.baseUrl}/customer/$id');
     try {
       var response = await client.get(
