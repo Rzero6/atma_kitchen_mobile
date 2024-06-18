@@ -16,8 +16,8 @@ class DetailTransaksi {
     this.idProduk,
     this.idHampers,
     required this.jumlah,
-    required this.produk,
-    required this.hampers,
+    this.produk,
+    this.hampers,
   });
 
   factory DetailTransaksi.fromJson(Map<String, dynamic> json) {

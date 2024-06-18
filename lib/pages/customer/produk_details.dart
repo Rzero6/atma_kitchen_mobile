@@ -1,3 +1,4 @@
+import 'package:atma_kitchen_mobile/api/api_client.dart';
 import 'package:atma_kitchen_mobile/model/produk.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -32,7 +33,7 @@ class _ProdukDetailsState extends State<ProdukDetails> {
                       width: 100.w,
                       fit: BoxFit.cover,
                     )
-                  : Image.network(produk.image!),
+                  : Image.network(ApiClient().produk + produk.image!),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),

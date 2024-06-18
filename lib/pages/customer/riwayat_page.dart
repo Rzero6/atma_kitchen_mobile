@@ -21,7 +21,6 @@ class _RiwayatPageState extends ConsumerState<RiwayatPage> {
       FutureProvider.family<List<Transaksi>?, String>((ref, search) async {
     List<Transaksi>? items = await TransaksiClient.getTransaksisPerUser();
     List<String> queryTerms = search.toLowerCase().split(" ").toList();
-
     List<Transaksi> result = items.where((atransaksi) {
       return queryTerms.every((queryTerm) {
         return atransaksi.detailTransaksi!.any((adetail) {
@@ -79,18 +78,30 @@ class _RiwayatPageState extends ConsumerState<RiwayatPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(DateFormat('EEEE, d MMM yyyy').format(
-                                  DateTime.parse(
-                                      data[index].tanggalPenerimaan))),
                               Text(
-                                  'Alamat: ${data[index].alamat!.jalan}, ${data[index].alamat!.kota}'),
-                              Text(
-                                  'Penerima: ${data[index].alamat!.namaPenerima}'),
+                                DateFormat('EEEE, d MMM yyyy').format(
+                                  DateTime.parse(data[index].tanggalPenerimaan),
+                                ),
+                              ),
+                              data[index].alamat != null
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Alamat: ${data[index].alamat!.jalan}, ${data[index].alamat!.kota}',
+                                        ),
+                                        Text(
+                                          'Penerima: ${data[index].alamat!.namaPenerima}',
+                                        ),
+                                      ],
+                                    )
+                                  : const Text('Di pick-up'),
                               Text(
                                 'Barang yang dibeli: ${data[index].detailTransaksi!.map((adetail) => adetail.produk != null ? adetail.produk!.nama : adetail.hampers!.nama).join(", ")}',
                               ),
                               Text(
-                                'Total Pembayaran: ${data[index].detailTransaksi!.fold<double>(0, (total, adetail) => total + (adetail.produk != null ? adetail.produk!.harga * adetail.jumlah : 0) + (adetail.hampers != null ? adetail.hampers!.harga * adetail.jumlah : 0)) + data[index].tip}',
+                                'Total Pembayaran: ${data[index].totalHarga}',
                               ),
                             ],
                           ),

@@ -45,7 +45,7 @@ class _TarikSaldoState extends State<TarikSaldo> {
       bool success = await HistoriSaldoClient.createHistoriSaldo(HistoriSaldo(
         idCustomer: idCustomer,
         status: false,
-        mutasi: double.parse(_jumlahController.text),
+        mutasi: -double.parse(_jumlahController.text),
         tujuan: _tujuanController.text,
       ));
       setState(() {

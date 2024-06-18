@@ -21,9 +21,11 @@ class Hampers {
       nama: json['nama'],
       harga: (json['harga'] as int).toDouble(),
       image: json['image'],
-      detailHampers: (json['detailhampers'] as List)
-          .map((detailJson) => DetailHampers.fromJson(detailJson))
-          .toList(),
+      detailHampers: json['detailhampers'] != null
+          ? (json['detailhampers'] as List)
+              .map((detailJson) => DetailHampers.fromJson(detailJson))
+              .toList()
+          : null,
     );
   }
 

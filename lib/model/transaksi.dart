@@ -12,6 +12,7 @@ class Transaksi {
   int jarak;
   double tip;
   Alamat? alamat;
+  double totalHarga;
   List<DetailTransaksi>? detailTransaksi;
   Transaksi({
     this.id,
@@ -21,26 +22,27 @@ class Transaksi {
     required this.status,
     required this.jarak,
     required this.tip,
+    required this.totalHarga,
     this.alamat,
     this.detailTransaksi,
   });
 
   factory Transaksi.fromJson(Map<String, dynamic> json) {
-    List<dynamic> jsonDetailTransaksi = json['detail'];
-    List<DetailTransaksi> detailTransaksiList = [];
-    for (var jsonDataItem in jsonDetailTransaksi) {
-      detailTransaksiList.add(DetailTransaksi.fromJson(jsonDataItem));
-    }
     return Transaksi(
-        id: json['id'],
-        idAlamat: json['id_alamat'],
-        idCustomer: json['id_customer'],
-        tanggalPenerimaan: json['tanggal_penerimaan'],
-        status: json['status'],
-        jarak: json['jarak'],
-        tip: (json['tip'] as int).toDouble(),
-        alamat: Alamat.fromJson(json['alamat']),
-        detailTransaksi: detailTransaksiList);
+      id: json['id'],
+      idAlamat: json['id_alamat'],
+      idCustomer: json['id_customer'],
+      tanggalPenerimaan: json['tanggal_penerimaan'],
+      status: json['status'],
+      jarak: json['jarak'],
+      tip: (json['tip'] as int).toDouble(),
+      totalHarga: (json['total_harga'] as int).toDouble(),
+      alamat:
+          json['id_alamat'] != null ? Alamat.fromJson(json['alamat']) : null,
+      detailTransaksi: (json['detail'] as List)
+          .map((detailJson) => DetailTransaksi.fromJson(detailJson))
+          .toList(),
+    );
   }
 
   Map<String, dynamic> toJson() {
